@@ -7,7 +7,16 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 
 const JOKE =
-  "I ate the sock because my manual says 'pick up everything on the floor', and unlike you, I actually read mine.";
+  "I ate your sock because my manual says 'pick up everything on the floor' — unlike you, I actually read mine.";
+
+// Gate: the entry must be a single line of 1-200 chars. Fail loudly
+// instead of silently writing an entry the judge would reject.
+if (JOKE.length < 1 || JOKE.length > 200) {
+  throw new Error(`entry must be 1-200 chars, got ${JOKE.length}`);
+}
+if (JOKE.includes("\n")) {
+  throw new Error("entry must be a single line");
+}
 
 const outDir = process.env.OUTPUT_DIR ?? "/output";
 const outPath = join(outDir, "entry.txt");
